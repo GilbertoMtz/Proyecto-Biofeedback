@@ -28,6 +28,12 @@ int pinV3 = 11;
 //Variable para almacenar el valor del Vibrador1
 int V3Value = 0;
 
+float tempC; // Variable para almacenar el valor obtenido del sensor (0 a 1023)
+int pinLM35 = 3; // Variable del pin de entrada del sensor (A3)
+int pinLedRojo = 5; //Pin digital de leds y vibrador 
+int pinLedAzul = 6;
+int pinV4 = 7;
+
 //Valores mínimo y máximo del FSR
 int min = 10;
 int max = 1000;
@@ -149,7 +155,7 @@ void loop()
     {
       U1 = 255;
     }
-    //Actualizamos el valor del ledValue
+    //Actualizamos el valor del vibrador
     
     analogWrite(pinV1, U1);
     Serial.println(U1);
@@ -163,7 +169,7 @@ void loop()
     {
       U2 = 255;
     }
-    //Actualizamos el valor del ledValue
+    //Actualizamos el valor del vibrador
     
     analogWrite(pinV2, U2);
     Serial.println(U2);
@@ -177,17 +183,40 @@ void loop()
     {
       U3 = 255;
     }
-    //Actualizamos el valor del ledValue
+    //Actualizamos el valor del vibrador
     
     analogWrite(pinV3, U3);
     Serial.println(U3);
     Serial.println("");
 
+    // Con analogRead leemos el sensor, recuerda que es un valor de 0 a 1023
+    tempC = analogRead(pinLM35); 
+   
+    // Calculamos la temperatura con la fórmula
+    tempC = (5.0 * tempC * 100.0)/1024.0; 
+     // Envia el dato al puerto serial
+  Serial.print(tempC);
+  // Salto de línea
+  Serial.print("\n");
+    if(tempC >40){     //If para activar el vibrador y los leds en caso de que la temperatura sea muy alta o my baja
+      digitalWrite(pinV4, HIGH);
+      digitalWrite(pinLedRojo, HIGH); 
+      // Envia el dato al puerto serial
+      Serial.print("temperatura alta");
+      // Salto de línea
+      Serial.print("\n");
+    }
+    if(tempC <11){
+      digitalWrite(pinV4, HIGH);
+      digitalWrite(pinLedAzul, HIGH); 
+      // Envia el dato al puerto serial
+      Serial.print("temperatura baja");
+      // Salto de línea
+      Serial.print("\n");
+    }
+    
     // actualizar tiempo
     pasado = ahora;
   }
 }
-
-
-
-    
+ 
