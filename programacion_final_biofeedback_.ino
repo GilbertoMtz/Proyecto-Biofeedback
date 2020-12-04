@@ -84,7 +84,7 @@ void loop()
   Serial.print(tempC);
   // Salto de línea
   Serial.print("\n");
-   if(tempC < 20){
+   if(tempC < 10){
       digitalWrite(pinV4, HIGH); 
       digitalWrite(pinLedRojo, LOW); 
       digitalWrite(pinLedAzul, HIGH); 
@@ -93,7 +93,7 @@ void loop()
       // Salto de línea
       Serial.print("\n");
     }
-    if (tempC > 20){
+    if (tempC > 10){
       digitalWrite(pinLedAzul, LOW);
     }
     if(tempC > 40){                         //If para activar el vibrador y los leds en caso de que la temperatura sea muy alta o my baja
@@ -108,7 +108,7 @@ void loop()
     if (tempC < 40){
       digitalWrite(pinLedRojo, LOW); 
     }
-     if (tempC < 20 || tempC > 40){
+     if (tempC < 10 || tempC > 40){
       digitalWrite(pinV4, HIGH); 
   }
   else {
